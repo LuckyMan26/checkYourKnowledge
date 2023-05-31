@@ -1,6 +1,7 @@
         var roomName = window.roomName;
         var username =  window.userName;
         const messageInput = document.querySelector('#messageInput');
+        
         const chatSocket = new WebSocket(
             'ws://'
             + window.location.host
@@ -122,4 +123,13 @@ parentElement.appendChild(div);
             chatSocket.close();
             window.location.pathname = '/chat/' + roomName + '/' + 'createtask/';
         };
+
+         document.querySelector('#generate-link').onclick = function(e) {
+
+            chatSocket.send(JSON.stringify({
+                'command' : 'generate_invite',
+                'token': roomName
+            }));
+        };
+
 const header = document.getElementById('header');

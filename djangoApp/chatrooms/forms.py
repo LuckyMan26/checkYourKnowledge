@@ -15,3 +15,6 @@ class ClassroomCreationForm(forms.ModelForm):
         if commit:
             classroom.token = get_random_string(16)
         return classroom
+
+class JoinClassForm(forms.Form):
+    code = forms.CharField(label='Enter the class code', max_length=16)

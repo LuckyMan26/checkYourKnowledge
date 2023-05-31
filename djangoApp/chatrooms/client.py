@@ -1,6 +1,7 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
 from django.contrib.auth import get_user_model
-from .models import Message,Task_model
+from asgiref.sync import async_to_sync
+from .models import Message,Task_model, Classroom
 from datetime import datetime
 from .Task import Task
 
@@ -165,6 +166,17 @@ class CheckAnswearCommand(Command):
                 'type': 'incorrect_answer'
             }))
 
+class GenerateInviteLink(Command):
+    def __init__(self, consumer, data):
+        self.consumer = consumer
+        self.data = data
+
+    async def execute(self):
+        token = self.data['token']
+        chatroom = Classroom.objects.get(token=token)
+        invite_link = chatroom.generate_invite()
+
+
 
 class ChatRoomConsumer(AsyncWebsocketConsumer):
     def __init__(self, *args, **kwargs):
@@ -175,8 +187,9 @@ class ChatRoomConsumer(AsyncWebsocketConsumer):
             'new_message': NewMessageCommand,
             'new_task': NewTaskCommand,
             'check_answer': CheckAnswearCommand,
-             'get_task' : GetTask,
-            'fetch_task': FetchTasks
+            'get_task' : GetTask,
+            'fetch_task': FetchTasks,
+            'generate_invite': GenerateInviteLink,
         }
         self.listOfTasks = []
     def addTaskToListOfTasks(self,t : Task):
