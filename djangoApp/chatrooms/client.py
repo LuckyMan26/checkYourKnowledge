@@ -22,7 +22,9 @@ class FetchCommand(Command):
         self.data = data
 
     async def execute(self):
+        print("MESSAGES ENTERED")
         messages = Message.last_10_messages()
+        print("MESSAGES EXITED")
         jsonConverter = JsonConverter.JsonConverterContext(JsonConverter.MessageToJsonConverter())
         print(messages)
         content = {
@@ -38,8 +40,8 @@ class FetchTasks(Command):
         self.data = data
 
     async def execute(self):
-
         class_room = self.data['room_name']
+        print("ROOMNAME " + class_room)
         tasks = Task_model.last_10_tasks(class_room)
         print(len(tasks))
         jsonConverter = JsonConverter.JsonConverterContext(JsonConverter.TaskToJsonConverter())
@@ -48,8 +50,9 @@ class FetchTasks(Command):
             'command': 'tasks',
             'tasks': jsonConverter.convert_multiple(tasks)
         }
+        print(content['tasks'])
         for task in content['tasks']:
-            print(task)
+            print(task + " TASK")
             await self.consumer.sendTask({'task':task})
 
 class GetTask(Command):
@@ -224,7 +227,7 @@ class ChatRoomConsumer(AsyncWebsocketConsumer):
         id = Message_dict['id']
         print('Id:'+str(task_content))
         author = Message_dict['author']
-        print('Hello')
+        print('SUCCESS')
         await (self.channel_layer.group_send)(
             self.room_group_name,
             {

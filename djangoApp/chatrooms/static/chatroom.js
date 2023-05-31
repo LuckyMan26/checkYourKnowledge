@@ -1,7 +1,7 @@
         var roomName = window.roomName;
         var username =  window.userName;
         const messageInput = document.querySelector('#messageInput');
-        
+
         const chatSocket = new WebSocket(
             'ws://'
             + window.location.host
@@ -21,6 +21,7 @@
      console.log('fetchTasks');
      chatSocket.send(JSON.stringify({'command': 'fetch_task',
                                     'room_name': roomName}));
+     console.log('exited FetchTask');
     };
         chatSocket.onmessage = function(e) {
 
@@ -107,6 +108,7 @@ parentElement.appendChild(div);
         };
 
         document.querySelector('#send-button').onclick = function(e) {
+            console.log('Send button enter')
             const messageInputDom = document.querySelector('#message-input');
             const message = messageInputDom.value;
 
@@ -119,7 +121,7 @@ parentElement.appendChild(div);
             messageInputDom.value = '';
         };
          document.querySelector('#createTask').onclick = function(e) {
-            const messageInputDom = document.querySelector('#chat-message-input');
+            const messageInputDom = document.querySelector('#message-input');
             chatSocket.close();
             window.location.pathname = '/chat/' + roomName + '/' + 'createtask/';
         };
