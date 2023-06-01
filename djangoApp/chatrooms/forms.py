@@ -14,7 +14,6 @@ class ClassroomCreationForm(forms.ModelForm):
         classroom = super(ClassroomCreationForm, self).save(commit=False)
         if commit:
             classroom.token = get_random_string(16)
-            classroom.save()
         return classroom
 
 class JoinClassForm(forms.Form):

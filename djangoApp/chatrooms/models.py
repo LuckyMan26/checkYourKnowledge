@@ -8,7 +8,7 @@ class Message(models.Model):
     author = models.ForeignKey(User, related_name='messages', on_delete=models.CASCADE)
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
-    def last_10_messages(self):
+    def last_10_messages():
         return Message.objects.order_by('-timestamp').all()[:10]
 
 class Task_model(models.Model):

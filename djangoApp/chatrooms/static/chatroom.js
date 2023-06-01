@@ -94,6 +94,11 @@ div.addEventListener('click', function() {
 var parentElement = document.getElementById('content');
 parentElement.appendChild(div);
         }
+           if(data['type'] === 'code_generation'){
+               const invite_code = data['invite_code'];
+               var field = document.getElementById("codeField");
+               field.value = invite_code;
+           }
         };
 
         chatSocket.onclose = function(e) {
