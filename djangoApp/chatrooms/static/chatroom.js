@@ -13,6 +13,7 @@ chatSocket.onopen = function(e) {
 
     fetchTasks();
     fetchMessages();
+    //fetchQuizzes();
 };
 
 function fetchMessages() {
@@ -23,7 +24,12 @@ function fetchMessages() {
     }));
     console.log('fetchMessages');
 };
-
+function fetchQuizzes() {
+    chatSocket.send(JSON.stringify({
+        'command': 'fetch_quizzes',
+        'room_name': roomName
+    }));
+}
 function fetchTasks() {
     console.log('fetchTasks');
     chatSocket.send(JSON.stringify({
@@ -60,6 +66,11 @@ chatSocket.onmessage = function(e) {
         }
 
     }
+     else if(data['command']==='quizzes'){
+        console.log('quizzes');
+        quiz_id = data['quiz'];
+        createQuiz();
+    }
     else if (data['type'] === 'chat_message') {
         createMessage(data);
         messageInput.value = '';
@@ -74,7 +85,11 @@ chatSocket.onmessage = function(e) {
         var field = document.getElementById("codeField");
         field.value = invite_code;
     }
+
 };
+function createQuiz(){
+
+}
 function createTask(tasks,answers) {
     const userAnswer = tasks['user_ans'];
     const TaskName = tasks['task_name'];

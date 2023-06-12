@@ -71,6 +71,20 @@ class AnswerToJson(ObjectToJsonConverter):
             result.append(self.convert_single(answer))
         return result
 
+class QuizToJson(ObjectToJsonConverter):
+    def convert_single(self, quiz):
+        return {
+            'quiz_id': quiz.task_id,
+            'quiz_name': quiz.answer,
+            'classroom_token': quiz.classname,
+
+        }
+
+    def convert_multiple(self, quizzes):
+        result = []
+        for quiz in quizzes:
+            result.append(self.convert_single(quiz))
+        return result
 class JsonConverterContext:
     def __init__(self, converter):
         self.converter = converter
@@ -83,3 +97,4 @@ class JsonConverterContext:
 
     def convert_multiple(self, obj):
         return self.converter.convert_multiple(obj)
+

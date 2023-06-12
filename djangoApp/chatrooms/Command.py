@@ -297,3 +297,20 @@ class CreateQuizTaskCommand(Command):
         quiz = Quiz.objects.create(quiz_id=quiz_id, num_of_questions = len(tasks), classname = classname, quiz_name = quiz_name)
         for task in tasks:
             quiz_task = QuizTask.objects.create(quiz_id = quiz_id, correct_answer = task['correct_answer'], problem=task['task_content'], classname = classname)
+
+
+class FetchQuizzes(Command):
+    def __init__(self, consumer, data):
+        self.consumer = consumer
+        self.data = data
+
+    async def execute(self):
+        classname = self.data['room_name']
+        quizzes = Quiz.objects.filter(classname = classname)
+        jsonConverter = JsonConverter.JsonConverterContext(JsonConverter.QuizToJson())
+        content = {
+            'command': 'quizzes',
+            'quizzes': jsonConverter.convert_multiple(quizzes)
+        }
+
+        await self.consumer.send(text_data=json.dumps(content))

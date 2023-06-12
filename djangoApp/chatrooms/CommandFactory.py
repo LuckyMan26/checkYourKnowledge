@@ -26,4 +26,6 @@ class CommandFactory:
             return ChangeScoreCommand(consumer,data)
         elif command_name == 'create_quiztask':
             return CreateQuizTaskCommand(consumer,data)
+        elif command_name == 'fetch_quizzes':
+            return FetchQuizzes(consumer,data)
         return None
