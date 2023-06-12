@@ -22,7 +22,7 @@ document.querySelector('#quiz-input-submit').onclick = function(e) {
    chatSocket.send(JSON.stringify({'command': 'create_quiztask',
                                       'author' : username,
                                       'tasks' : tasks,
-                                      'classroom_name': tasks,
+                                      'classroom_name': roomName,
                                       'quiz_name': quizname,
                                       }));
    

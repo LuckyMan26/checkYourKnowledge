@@ -62,3 +62,19 @@ class Answer(models.Model):
         print('Username' + str(username))
         answers = Answer.objects.all().filter(classroom_token=class_room, author_of_answer=username)
         return answers
+
+
+class Quiz(models.Model):
+    quiz_id = models.IntegerField()
+    num_of_questions = models.IntegerField()
+    classname = models.TextField()
+    quiz_name = models.TextField()
+    def last_quizzes(class_room : str):
+        quizzes = Quiz.objects.all().filter(classname=class_room)
+        return quizzes
+
+class QuizTask(models.Model):
+    quiz_id = models.IntegerField()
+    correct_answer = models.TextField()
+    problem = models.TextField()
+    classname = models.TextField()

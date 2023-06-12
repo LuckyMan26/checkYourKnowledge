@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from . import JsonConverter
-from .models import Message, Task_model, Classroom, Answer
+from .models import Message, Task_model, Classroom, Answer, Quiz, QuizTask
 from .Task import Task
 import json
 from datetime import datetime
@@ -272,6 +272,7 @@ class ChangeScoreCommand(Command):
         new_points = self.data['points']
         Answer.objects.all().filter(task_id=id, classroom_token=classroom_token, author_of_answer = username).update(points=new_points)
 
+
 class CreateQuizTaskCommand(Command):
     def __init__(self, consumer, data):
         self.consumer = consumer
@@ -281,3 +282,18 @@ class CreateQuizTaskCommand(Command):
         print(self.data)
         tasks = self.data['tasks']
         print(tasks)
+        classname = self.data['classroom_name']
+        quiz_name = self.data['quiz_name']
+        quizzes = Quiz.last_quizzes(classname)
+        print(classname)
+        if len(quizzes)==0:
+            quiz_id = 1
+        else:
+            max: int = quizzes[0].quiz_id
+            for i in quizzes:
+                if i.quiz_id > max:
+                    max = i.quiz_id
+            quiz_id = 1 + max
+        quiz = Quiz.objects.create(quiz_id=quiz_id, num_of_questions = len(tasks), classname = classname, quiz_name = quiz_name)
+        for task in tasks:
+            quiz_task = QuizTask.objects.create(quiz_id = quiz_id, correct_answer = task['correct_answer'], problem=task['task_content'], classname = classname)
