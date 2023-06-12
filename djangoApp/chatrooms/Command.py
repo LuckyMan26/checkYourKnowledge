@@ -314,3 +314,15 @@ class FetchQuizzes(Command):
         }
 
         await self.consumer.send(text_data=json.dumps(content))
+class GetQuiz(Command):
+    def __init__(self, consumer, data):
+        self.consumer = consumer
+        self.data = data
+
+    async def execute(self):
+        quiz_id = self.data['quiz_id']
+        classroom = self.data['classroom_name']
+        quizTask = QuizTask.objects.filter(classname = classroom, quiz_id = quiz_id)
+        jsonConverter = JsonConverter.JsonConverterContext(JsonConverter.QuizTaskToJson())
+        jsonQuizTask = jsonConverter.convert_multiple(quizTask)
+        await self.consumer.send(text_data=json.dumps(jsonQuizTask))

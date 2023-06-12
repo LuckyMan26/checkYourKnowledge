@@ -61,20 +61,51 @@
         border-radius: 5px;
         font-size: 14px;
     }
+         .dialog-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            color: #fff;
+            opacity: 0;
+            animation: fadeInOut 2s ease-in-out;
+         }
 
+         @keyframes fadeInOut {
+            0% {
+               opacity: 0;
+            }
+            25% {
+               opacity: 1;
+            }
+            75% {
+               opacity: 1;
+            }
+            100% {
+               opacity: 0;
+            }
+         }
       </style>
    </head>
    <body>
       <div class="flashcard">
-         <h2>Flashcard 1</h2>
-         <p>This is the content of Flashcard 1.</p>
+         <h2 id="quiz_name">Flashcard 1</h2>
+         <p id="problem">This is the content of Flashcard 1.</p>
           <input type="text" id="answerInput" placeholder="Enter your answer">
-         <button>Submit answer</button>
+         <button onclick="submitAnswer()" id="submitBtn">Submit answer</button>
 
       </div>
- 
+      <div id="dialog" class="dialog-container">
+         <h2 id="dialogMessage"> Correct!</h2>
+      </div>
       <script>
            window.roomName = '{{ room_name }}';
+
       </script>
       <script src="{% static 'quiz.js' %}"> </script>
          

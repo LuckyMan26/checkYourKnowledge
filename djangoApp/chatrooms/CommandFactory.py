@@ -28,4 +28,6 @@ class CommandFactory:
             return CreateQuizTaskCommand(consumer,data)
         elif command_name == 'fetch_quizzes':
             return FetchQuizzes(consumer,data)
+        elif command_name == 'get_quiz':
+            return GetQuiz(consumer,data)
         return None
