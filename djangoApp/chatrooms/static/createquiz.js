@@ -1,6 +1,6 @@
 var roomName = window.roomName;
 var username = window.userName;
-var tasks;
+var tasks = new Array();
 const chatSocket = new WebSocket(
     'ws://' +
     window.location.host +
@@ -11,21 +11,18 @@ const chatSocket = new WebSocket(
 chatSocket.onopen = function(e) {
     var answear = window.answear;
     var content = window.problem;
-    //fetchTasks();
+   
 };
 chatSocket.onclose = function(e) {
     console.error('Chat socket closed unexpectedly');
 };
 document.querySelector('#quiz-input-submit').onclick = function(e) {
-    const ans = document.querySelector("#answear-input").value;
-    const content = document.querySelector("#task-content").value;
-    answer = ans;
-    createQuizTask(ans, content);
+   
+  
+   
 };
 
-function createQuizTask(ans, content) {
 
-}
 
 function showSuccessMessage() {
     var successDiv = document.createElement('div');
@@ -59,3 +56,19 @@ function showSuccessMessage() {
             dialog.style.display = "none";
         }
     });
+var quizTaskSubmitButton = document.querySelector("#task-submit");
+quizTaskSubmitButton.addEventListener("click", function(){
+const points = document.querySelector('#task-points').value;
+const correct_answer = document.querySelector('#answer-input').value;
+const task_content = document.querySelector('#task-content').value;
+var task = new Map();
+task.set("points", points);
+task.set("correct_answer", correct_answer);
+task.set("task_content",task_content);
+tasks.push(task);
+var div = document.createElement('div');
+
+div.innerText = tasks[tasks.length-1].get('task_content');
+document.querySelector("#content").appendChild(div);
+
+})
