@@ -194,6 +194,11 @@ document.querySelector('#createTask').onclick = function(e) {
     chatSocket.close();
     window.location.pathname = '/chat/' + roomName + '/' + 'createtask/';
 };
+document.querySelector('#createQuiz').onclick = function(e) {
+    const messageInputDom = document.querySelector('#chat-message-input');
+    chatSocket.close();
+    window.location.pathname = '/chat/' + roomName + '/' + 'createquiz/';
+};
 
 document.querySelector('#generate-link').onclick = function(e) {
     chatSocket.send(JSON.stringify({
