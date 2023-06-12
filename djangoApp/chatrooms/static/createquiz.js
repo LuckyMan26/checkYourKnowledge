@@ -9,16 +9,22 @@ const chatSocket = new WebSocket(
     '/' + 'createquiz/'
 );
 chatSocket.onopen = function(e) {
-    var answear = window.answear;
-    var content = window.problem;
+ 
    
 };
 chatSocket.onclose = function(e) {
     console.error('Chat socket closed unexpectedly');
 };
 document.querySelector('#quiz-input-submit').onclick = function(e) {
-   
-  
+    console.log(tasks);
+
+   const quizname = document.querySelector("#quiz-name").value;
+   chatSocket.send(JSON.stringify({'command': 'create_quiztask',
+                                      'author' : username,
+                                      'tasks' : tasks,
+                                      'classroom_name': tasks,
+                                      'quiz_name': quizname,
+                                      }));
    
 };
 
@@ -36,7 +42,11 @@ function showSuccessMessage() {
     }, 3000);
 }
 
-
+    function clearInputFields() {
+        document.getElementById("task-content").value = "";
+        document.getElementById("task-points").value = "";
+        document.getElementById("answer-input").value = "";
+    }
     var submitButton = document.getElementById("createtask");
     submitButton.addEventListener("click", function() {
         var dialog = document.getElementById("dialog");
@@ -48,6 +58,7 @@ function showSuccessMessage() {
     closeButton.addEventListener("click", function() {
         var dialog = document.getElementById("dialog");
         dialog.style.display = "none";
+         clearInputFields();
     });
 
     window.addEventListener("click", function(event) {
@@ -61,14 +72,12 @@ quizTaskSubmitButton.addEventListener("click", function(){
 const points = document.querySelector('#task-points').value;
 const correct_answer = document.querySelector('#answer-input').value;
 const task_content = document.querySelector('#task-content').value;
-var task = new Map();
-task.set("points", points);
-task.set("correct_answer", correct_answer);
-task.set("task_content",task_content);
+const task =  { "points": points, "correct_answer": correct_answer,"task_content":task_content };
+
 tasks.push(task);
 var div = document.createElement('div');
 
-div.innerText = tasks[tasks.length-1].get('task_content');
+div.innerText = tasks[tasks.length-1]['task_content'];
 document.querySelector("#content").appendChild(div);
-
+closeButton.click();
 })

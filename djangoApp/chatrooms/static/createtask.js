@@ -55,7 +55,6 @@ function showSuccessMessage() {
 
     document.body.appendChild(successDiv);
 
-    // Remove the success message after 3 seconds
     setTimeout(function() {
         successDiv.remove();
     }, 3000);

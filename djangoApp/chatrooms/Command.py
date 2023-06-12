@@ -271,3 +271,13 @@ class ChangeScoreCommand(Command):
         username = self.data['username']
         new_points = self.data['points']
         Answer.objects.all().filter(task_id=id, classroom_token=classroom_token, author_of_answer = username).update(points=new_points)
+
+class CreateQuizTaskCommand(Command):
+    def __init__(self, consumer, data):
+        self.consumer = consumer
+        self.data = data
+
+    async def execute(self):
+        print(self.data)
+        tasks = self.data['tasks']
+        print(tasks)
