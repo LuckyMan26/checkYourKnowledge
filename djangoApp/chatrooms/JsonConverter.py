@@ -74,8 +74,8 @@ class AnswerToJson(ObjectToJsonConverter):
 class QuizToJson(ObjectToJsonConverter):
     def convert_single(self, quiz):
         return {
-            'quiz_id': quiz.task_id,
-            'quiz_name': quiz.answer,
+            'quiz_id': quiz.quiz_id,
+            'quiz_name': quiz.quiz_name,
             'classroom_token': quiz.classname,
 
         }

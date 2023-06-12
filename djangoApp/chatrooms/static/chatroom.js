@@ -13,7 +13,7 @@ chatSocket.onopen = function(e) {
 
     fetchTasks();
     fetchMessages();
-    //fetchQuizzes();
+    fetchQuizzes();
 };
 
 function fetchMessages() {
@@ -68,8 +68,11 @@ chatSocket.onmessage = function(e) {
     }
      else if(data['command']==='quizzes'){
         console.log('quizzes');
-        quiz_id = data['quiz'];
-        createQuiz();
+        console.log(data);
+        const quizz = data['quizzes'];
+        for(let i=0;i<quizz.length;i++){
+        createQuiz(quizz[i]);
+    }
     }
     else if (data['type'] === 'chat_message') {
         createMessage(data);
@@ -87,8 +90,25 @@ chatSocket.onmessage = function(e) {
     }
 
 };
-function createQuiz(){
-
+function createQuiz(quizz){
+   
+    const quiz_name = quizz['quiz_name'];
+    const id = quizz['quiz_id'];
+    var div = document.createElement('div');
+    div.style.color = "#fff"
+    div.style.backgroundColor = '#85BE1E';
+    div.style.padding = '10px';
+    var taskName = document.createElement('h3');
+    taskName.style.fontWeight = 'bold';
+    taskName.style.marginBottom = '5px';
+    taskName.textContent = quiz_name;
+     div.style.cursor = 'pointer';
+    div.appendChild(taskName);
+      div.addEventListener('click', function() {
+        window.location.pathname = '/chat/' + roomName + '/' + 'quiz' +'/' + id + '/';
+    });
+    var parentElement = document.getElementById('content');
+    parentElement.appendChild(div);
 }
 function createTask(tasks,answers) {
     const userAnswer = tasks['user_ans'];
@@ -123,13 +143,11 @@ function createTask(tasks,answers) {
     taskName.textContent = TaskName;
     div.appendChild(taskName);
 
-    // Create the points element
     var points = document.createElement('p');
     points.style.margin = '0';
     points.textContent = 'Points: ' + String(pointsInt);
     div.appendChild(points);
 
-    // Add the click event listener
     div.addEventListener('click', function() {
         window.location.pathname = '/chat/' + roomName + '/' + id + '/';
     });

@@ -1,0 +1,83 @@
+{% load static %}
+<html>
+   <head>
+      <meta charset="utf-8"/>
+      <title>ClassRoom</title>
+      <style>
+         body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+         }
+
+         .flashcard {
+            width: 300px;
+            height: 200px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+         }
+
+         .flashcard h2 {
+            color: #4CAF50;
+            font-size: 24px;
+            margin-top: 0;
+         }
+
+         .flashcard p {
+            margin-bottom: 0;
+         }
+
+         .flashcard button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+         }
+
+         .flashcard button:hover {
+            background-color: #45a049;
+         }
+             #answerInput {
+        margin-bottom: 10px;
+        padding: 10px;
+        width: 100%;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+
+      </style>
+   </head>
+   <body>
+      <div class="flashcard">
+         <h2>Flashcard 1</h2>
+         <p>This is the content of Flashcard 1.</p>
+          <input type="text" id="answerInput" placeholder="Enter your answer">
+         <button>Submit answer</button>
+
+      </div>
+ 
+      <script>
+           window.roomName = '{{ room_name }}';
+      </script>
+      <script src="{% static 'quiz.js' %}"> </script>
+         
+     
+   </body>
+</html>
