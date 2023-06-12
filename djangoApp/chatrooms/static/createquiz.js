@@ -1,6 +1,6 @@
 var roomName = window.roomName;
 var username = window.userName;
-var answer;
+var tasks;
 const chatSocket = new WebSocket(
     'ws://' +
     window.location.host +
@@ -38,3 +38,24 @@ function showSuccessMessage() {
         successDiv.remove();
     }, 3000);
 }
+
+
+    var submitButton = document.getElementById("createtask");
+    submitButton.addEventListener("click", function() {
+        var dialog = document.getElementById("dialog");
+        dialog.style.display = "block";
+     
+    });
+
+    var closeButton = document.getElementsByClassName("modal-close")[0];
+    closeButton.addEventListener("click", function() {
+        var dialog = document.getElementById("dialog");
+        dialog.style.display = "none";
+    });
+
+    window.addEventListener("click", function(event) {
+        var dialog = document.getElementById("dialog");
+        if (event.target == dialog) {
+            dialog.style.display = "none";
+        }
+    });

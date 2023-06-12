@@ -94,6 +94,54 @@
                 opacity: 0;
             }
         }
+ .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+            animation: fadeIn 0.3s;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            border-radius: 5px;
+            animation: slideIn 0.3s;
+        }
+
+        .modal-close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .modal-close:hover,
+        .modal-close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); }
+            to { transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
@@ -110,9 +158,25 @@
         <input type="number" id="question-number" name="task_points" placeholder="Enter number of questions">
 
         <input type="button" id="quiz-input-submit" value="Submit">
-
+        <input type="button" id="createtask" value="Create Task">
         <div id="content"></div>
     </form>
+</div>
+<div id="dialog" class="modal">
+    <div class="modal-content">
+        <span class="modal-close">&times;</span>
+        
+        <label for="task-content">Task Content</label>
+        <input type="text" id="task-content" size="100" placeholder="Enter task content">
+
+        <label for="task-points">Maximum Points</label>
+        <input type="number" id="task-points" name="task_points" placeholder="Enter maximum points">
+
+        <label for="answear-input">Correct Answer Input</label>
+        <input type="text" id="answear-input" size="100" placeholder="Enter answer input">
+        <input type="button" id="task-input-submit" value="Submit">
+       
+    </div>
 </div>
 <script>
     window.userName = {{username}};
