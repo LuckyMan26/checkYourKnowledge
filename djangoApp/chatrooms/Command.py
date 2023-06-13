@@ -306,11 +306,18 @@ class FetchQuizzes(Command):
 
     async def execute(self):
         classname = self.data['room_name']
+        author = self.data['username']
+
         quizzes = Quiz.objects.filter(classname = classname)
+
+        quizAnswer = QuizAnswer.last_quiz_answers(classname,author)
+
         jsonConverter = JsonConverter.JsonConverterContext(JsonConverter.QuizToJson())
+        quizAnswerConverter = JsonConverter.JsonConverterContext(JsonConverter.QuizAnswerToJson())
         content = {
             'command': 'quizzes',
-            'quizzes': jsonConverter.convert_multiple(quizzes)
+            'quizzes': jsonConverter.convert_multiple(quizzes),
+            'quizzes_answers':  quizAnswerConverter.convert_multiple(quizAnswer),
         }
 
         await self.consumer.send(text_data=json.dumps(content))
@@ -324,14 +331,14 @@ class GetQuiz(Command):
         classroom = self.data['classroom_name']
         quizTask = QuizTask.objects.filter(classname = classroom, quiz_id = quiz_id)
         author = self.data['username']
-        user = User.objects.get(username=author)
 
-        userQuizResult = QuizAnswer.objects.filter(classname = classroom, quiz_id = quiz_id, author = user)
+
+        userQuizResult = QuizAnswer.objects.filter(classname = classroom, quiz_id = quiz_id, author = author)
         jsonConverter = JsonConverter.JsonConverterContext(JsonConverter.QuizTaskToJson())
         quizAnswerjsonConverter = JsonConverter.JsonConverterContext(JsonConverter.QuizTaskToJson())
         jsonQuizTask = jsonConverter.convert_multiple(quizTask)
         jsonQuizAnswer =quizAnswerjsonConverter.convert_multiple(userQuizResult)
-        await self.consumer.send(text_data=json.dumps({'quiz' : jsonQuizTask,
+        await self.consumer.send(text_data=json.dumps({'quizz' : jsonQuizTask,
                                                        'quiz_answer': jsonQuizAnswer}))
 
 class SaveQuizAnswer(Command):

@@ -72,7 +72,7 @@ chatSocket.onmessage = function(e) {
         console.log(data);
         const quizz = data['quizzes'];
         for(let i=0;i<quizz.length;i++){
-        createQuiz(quizz[i]);
+        createQuiz(data['quizzes'][i],data['quizzes_answers'][i]);
     }
     }
     else if (data['type'] === 'chat_message') {
@@ -91,13 +91,21 @@ chatSocket.onmessage = function(e) {
     }
 
 };
-function createQuiz(quizz){
-   
+function createQuiz(quizz,quiz_answer){
+   console.log(quizz);
     const quiz_name = quizz['quiz_name'];
     const id = quizz['quiz_id'];
     var div = document.createElement('div');
     div.style.color = "#fff"
+    if(quiz_answer===undefined){
+    div.style.backgroundColor = '#3498db';
+}
+ else if(quiz_answer['points']===quiz_answer['max_points']){
     div.style.backgroundColor = '#85BE1E';
+}
+else if(quiz_answer['points']!=quiz_answer['max_points']){
+    div.style.backgroundColor = '#B92119';
+}
     div.style.padding = '10px';
     var taskName = document.createElement('h3');
     taskName.style.fontWeight = 'bold';

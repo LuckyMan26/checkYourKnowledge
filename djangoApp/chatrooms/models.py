@@ -85,4 +85,8 @@ class QuizAnswer(models.Model):
     classname = models.TextField()
     points = models.IntegerField()
     max_points = models.IntegerField()
-    author = models.ForeignKey(User, related_name='QuizAnswer', on_delete=models.CASCADE)
+    author = models.TextField()
+    def last_quiz_answers(class_room: str, author : str):
+
+        answers = QuizAnswer.objects.all().filter(classname=class_room, author=author)
+        return answers
