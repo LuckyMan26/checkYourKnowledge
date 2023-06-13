@@ -100,6 +100,28 @@ class QuizTaskToJson(ObjectToJsonConverter):
         for quizTask in quizTasks:
             result.append(self.convert_single(quizTask))
         return result
+class QuizAnswerToJson(ObjectToJsonConverter):
+    def convert_single(self, quizAnswer):
+        return {
+            'quiz_id': quizAnswer.quiz_id,
+            'classname': quizAnswer.classname,
+            'max_points': quizAnswer.max_points,
+            'author': quizAnswer.author,
+            'points': quizAnswer.points
+
+        }
+
+    def convert_multiple(self, quizAnswers):
+        result = []
+        for quizAnswer in quizAnswers:
+            result.append(self.convert_single(quizAnswer))
+        return result
+
+    def convert_multiple(self, quizTasks):
+        result = []
+        for quizTask in quizTasks:
+            result.append(self.convert_single(quizTask))
+        return result
 class JsonConverterContext:
     def __init__(self, converter):
         self.converter = converter

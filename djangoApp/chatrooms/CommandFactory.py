@@ -30,4 +30,6 @@ class CommandFactory:
             return FetchQuizzes(consumer,data)
         elif command_name == 'get_quiz':
             return GetQuiz(consumer,data)
+        elif command_name == 'save_answer_quiz':
+            return SaveQuizAnswer(consumer,data)
         return None

@@ -4,6 +4,7 @@ var index=0;
 var data;
 var userAnswers = [];
 var points = 0;
+const username =  window.userName;
 const chatSocket = new WebSocket(
     'ws://' +
     window.location.host +
@@ -82,8 +83,18 @@ function changeFlashCard(data,index){
          h.innerText = points + "/" + data.length;
           var submitBtn = document.getElementById('submitBtn');
           submitBtn.style.display = 'none';
-          answerInput.style.display = 'none'
+          answerInput.style.display = 'none';
+        chatSocket.send(JSON.stringify({
+        'command': 'save_answer_quiz',
+        'quiz_id': id,
+        'classroom_name': window.roomName,
+        'user_points': points,
+        'max_points': data.length,
+        'username': username,
+    }));
+
     }
+
     else{
     const answerInput = document.querySelector("#answerInput").value;
     userAnswers.push(answerInput);

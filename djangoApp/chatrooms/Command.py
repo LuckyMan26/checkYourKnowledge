@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from . import JsonConverter
-from .models import Message, Task_model, Classroom, Answer, Quiz, QuizTask
+from .models import *
 from .Task import Task
 import json
 from datetime import datetime
@@ -323,6 +323,29 @@ class GetQuiz(Command):
         quiz_id = self.data['quiz_id']
         classroom = self.data['classroom_name']
         quizTask = QuizTask.objects.filter(classname = classroom, quiz_id = quiz_id)
+        author = self.data['username']
+        user = User.objects.get(username=author)
+
+        userQuizResult = QuizAnswer.objects.filter(classname = classroom, quiz_id = quiz_id, author = user)
         jsonConverter = JsonConverter.JsonConverterContext(JsonConverter.QuizTaskToJson())
+        quizAnswerjsonConverter = JsonConverter.JsonConverterContext(JsonConverter.QuizTaskToJson())
         jsonQuizTask = jsonConverter.convert_multiple(quizTask)
-        await self.consumer.send(text_data=json.dumps(jsonQuizTask))
+        jsonQuizAnswer =quizAnswerjsonConverter.convert_multiple(userQuizResult)
+        await self.consumer.send(text_data=json.dumps({'quiz' : jsonQuizTask,
+                                                       'quiz_answer': jsonQuizAnswer}))
+
+class SaveQuizAnswer(Command):
+    def __init__(self, consumer, data):
+        self.consumer = consumer
+        self.data = data
+
+    async def execute(self):
+        print(SaveQuizAnswer)
+        quiz_id = self.data['quiz_id']
+        classroom_name = self.data['classroom_name']
+        user_points = self.data['user_points']
+        max_points = self.data['max_points']
+        username = self.data['username']
+        user = User.objects.get(username=username)
+        QuizAnswer.objects.create(quiz_id=quiz_id, classname=classroom_name, author = user,
+                              max_points=max_points, points = user_points)

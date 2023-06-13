@@ -27,7 +27,8 @@ function fetchMessages() {
 function fetchQuizzes() {
     chatSocket.send(JSON.stringify({
         'command': 'fetch_quizzes',
-        'room_name': roomName
+        'room_name': roomName,
+        'username': username,
     }));
 }
 function fetchTasks() {

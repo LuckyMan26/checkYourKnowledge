@@ -78,3 +78,11 @@ class QuizTask(models.Model):
     correct_answer = models.TextField()
     problem = models.TextField()
     classname = models.TextField()
+
+
+class QuizAnswer(models.Model):
+    quiz_id = models.IntegerField()
+    classname = models.TextField()
+    points = models.IntegerField()
+    max_points = models.IntegerField()
+    author = models.ForeignKey(User, related_name='QuizAnswer', on_delete=models.CASCADE)
