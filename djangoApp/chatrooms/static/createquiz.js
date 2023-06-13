@@ -25,6 +25,7 @@ document.querySelector('#quiz-input-submit').onclick = function(e) {
                                       'classroom_name': roomName,
                                       'quiz_name': quizname,
                                       }));
+   showSuccessMessage();
    
 };
 
@@ -32,7 +33,7 @@ document.querySelector('#quiz-input-submit').onclick = function(e) {
 
 function showSuccessMessage() {
     var successDiv = document.createElement('div');
-    successDiv.textContent = 'Task successfully created!';
+    successDiv.textContent = 'Quizz successfully created!';
     successDiv.className = 'success-message';
 
     document.body.appendChild(successDiv);

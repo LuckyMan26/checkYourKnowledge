@@ -51,6 +51,7 @@ chatSocket.onmessage = function(e) {
         console.log('messages');
         const chatMessages = document.getElementById('chat-messages');
         chatMessages.innerHTML="";
+        console.log(data);
         for (let i=0; i<data['messages'].length; i++) {
             console.log(data['messages'][i]);
             createMessage(data['messages'][i]);
@@ -171,8 +172,10 @@ function createTask(tasks,answers) {
 }
 
 function createMessage(data) {
+   
     const message = data['content'];
     const from = data['author'];
+    
     const messageElement = document.createElement('div');
     messageElement.classList.add('message');
     const chatMessages = document.getElementById('chat-messages');

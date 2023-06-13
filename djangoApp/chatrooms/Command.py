@@ -23,7 +23,7 @@ class FetchCommand(Command):
         class_room = self.data['room_name']
         messages = Message.last_10_messages(class_room)
         jsonConverter = JsonConverter.JsonConverterContext(JsonConverter.MessageToJsonConverter())
-        print(messages)
+
         content = {
             'command': 'messages',
             'messages': jsonConverter.convert_multiple(messages)

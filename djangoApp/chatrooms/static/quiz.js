@@ -159,3 +159,17 @@ function submitAnswer() {
     }
 
 }
+
+function backButtonEvent(){
+    console.log("Navigated back!");
+     if(data['quiz_answer'].length == 0){
+    chatSocket.send(JSON.stringify({
+            'command': 'save_answer_quiz',
+            'quiz_id': id,
+            'classroom_name': window.roomName,
+            'user_points': points,
+            'max_points': data['quizz'].length,
+            'username': username,
+        }));
+}
+}

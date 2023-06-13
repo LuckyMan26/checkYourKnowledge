@@ -115,13 +115,15 @@
     }
       </style>
    </head>
-   <body>
+   <body onbeforeunload = "backButtonEvent()">
       <div class="flashcard">
          <h2 id="quiz_name">Flashcard 1</h2>
          <p id="problem">This is the content of Flashcard 1.</p>
+          {% if not is_owner %}
           <input type="text" id="answerInput" placeholder="Enter your answer">
+          
          <button onclick="submitAnswer()" id="submitBtn">Submit answer</button>
-
+         {% endif %}
       </div>
       <div id="user_ans"></div>
       <div id="dialog" class="dialog-container">
