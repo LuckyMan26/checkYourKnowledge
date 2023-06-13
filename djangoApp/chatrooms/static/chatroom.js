@@ -251,7 +251,5 @@ document.querySelector('#generate-link').onclick = function(e) {
         'token': roomName
     }));
 };
-function homeClick(){
-             window.location.pathname = '';
-    }
+
 const header = document.getElementById('header');

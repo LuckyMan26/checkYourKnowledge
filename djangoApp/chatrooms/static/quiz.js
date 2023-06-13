@@ -47,10 +47,12 @@ function showDialog() {
     // Update dialog content based on the answer
     if (answerInput === data['quizz'][index]['correct_answer']) {
         dialogMessage.textContent = 'Your answer is correct!';
+        dialogMessage.style.color = "#52D131";
         points += 1;
 
     } else {
         dialogMessage.textContent = 'Your answer is incorrect!';
+        dialogMessage.style.color = "#E41600";
     }
 
     dialog.style.display = 'block';
@@ -149,8 +151,9 @@ function submitAnswer() {
     } else {
         const answerInput = document.querySelector("#answerInput").value;
         userAnswers.push(answerInput);
-
+         document.querySelector("#answerInput").value = "";
         index = index + 1;
+
         changeFlashCard(data['quizz'], index);
 
     }
