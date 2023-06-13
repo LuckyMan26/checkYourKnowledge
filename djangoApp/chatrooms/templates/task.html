@@ -157,14 +157,20 @@
 <div class="block">
     <h2 id="problem">Content Block</h2>
     <div class="row">
+        {% if not is_owner %}
         <div class="col-md-6">
             <input type="file" id="photoInput" accept="image/*">
         </div>
+        {% endif %}
+        {% if not is_owner %}
         <div class="col-md-6 right">
             <button onclick="submitAnswer()" id="submitBtn">Submit Answer</button>
         </div>
+        {% endif %}
     </div>
+     {% if not is_owner %}
     <input type="text" id="answerInput" placeholder="Enter your answer">
+        {% endif %}
 
     <div id="resultDiv"></div>
     <div id="pointsDiv"><span id="points">0</span></div>
