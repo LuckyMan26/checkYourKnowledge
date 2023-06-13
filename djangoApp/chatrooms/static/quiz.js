@@ -10,7 +10,7 @@ const chatSocket = new WebSocket(
     window.location.host +
     '/ws/chat/' +
     roomName +
-    '/'
+    '/' + 'quiz' + '/' + id
 );
 chatSocket.onopen = function(e) {
     chatSocket.send(JSON.stringify({
@@ -60,7 +60,20 @@ chatSocket.onmessage = function(e) {
     const data_ = JSON.parse(e.data);
     console.log(data_);
     data = data_;
-    changeFlashCard(data['quizz'], 0)
+    if (data['quiz_answer'] != null) {
+        const problem = document.querySelector("#problem");
+        const h = document.querySelector("#quiz_name");
+        problem.innerText = data['quiz_answer'][0]['points'] + '/' + data['quiz_answer'][0]['max_points'];
+        h.innerText = 'You have already submitted this quizz';
+        var submitBtn = document.getElementById('submitBtn');
+        const answerInput = document.querySelector("#answerInput");
+
+        submitBtn.style.display = 'none';
+        answerInput.style.display = 'none';
+
+    } else {
+        changeFlashCard(data['quizz'], 0);
+    }
 
 }
 
@@ -81,7 +94,7 @@ function submitAnswer() {
         const problem = document.querySelector("#problem");
         const answerInput = document.querySelector("#answerInput");
         var max_points = 0;
-      
+
 
         problem.innerText = "That is all";
         console.log(max_points);
@@ -94,7 +107,7 @@ function submitAnswer() {
             'quiz_id': id,
             'classroom_name': window.roomName,
             'user_points': points,
-            'max_points':  data['quizz'].length,
+            'max_points': data['quizz'].length,
             'username': username,
         }));
 

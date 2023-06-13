@@ -97,6 +97,7 @@ function createQuiz(quizz,quiz_answer){
     const id = quizz['quiz_id'];
     var div = document.createElement('div');
     div.style.color = "#fff"
+
     if(quiz_answer===undefined){
     div.style.backgroundColor = '#3498db';
 }
@@ -112,8 +113,10 @@ else if(quiz_answer['points']!=quiz_answer['max_points']){
     taskName.style.marginBottom = '5px';
     taskName.textContent = quiz_name;
      div.style.cursor = 'pointer';
+     div.style.margin = '10px 0';
     div.appendChild(taskName);
       div.addEventListener('click', function() {
+
         window.location.pathname = '/chat/' + roomName + '/' + 'quiz' +'/' + id + '/';
     });
     var parentElement = document.getElementById('content');
@@ -233,12 +236,12 @@ document.querySelector('#send-button').onclick = function(e) {
 
 document.querySelector('#createTask').onclick = function(e) {
     const messageInputDom = document.querySelector('#chat-message-input');
-    chatSocket.close();
+    
     window.location.pathname = '/chat/' + roomName + '/' + 'createtask/';
 };
 document.querySelector('#createQuiz').onclick = function(e) {
     const messageInputDom = document.querySelector('#chat-message-input');
-    chatSocket.close();
+    
     window.location.pathname = '/chat/' + roomName + '/' + 'createquiz/';
 };
 

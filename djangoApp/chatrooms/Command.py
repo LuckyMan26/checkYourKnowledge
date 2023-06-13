@@ -335,7 +335,7 @@ class GetQuiz(Command):
 
         userQuizResult = QuizAnswer.objects.filter(classname = classroom, quiz_id = quiz_id, author = author)
         jsonConverter = JsonConverter.JsonConverterContext(JsonConverter.QuizTaskToJson())
-        quizAnswerjsonConverter = JsonConverter.JsonConverterContext(JsonConverter.QuizTaskToJson())
+        quizAnswerjsonConverter = JsonConverter.JsonConverterContext(JsonConverter.QuizAnswerToJson())
         jsonQuizTask = jsonConverter.convert_multiple(quizTask)
         jsonQuizAnswer =quizAnswerjsonConverter.convert_multiple(userQuizResult)
         await self.consumer.send(text_data=json.dumps({'quizz' : jsonQuizTask,
