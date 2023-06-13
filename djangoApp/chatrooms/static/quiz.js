@@ -80,7 +80,8 @@ chatSocket.onmessage = function(e) {
             createUserAnswer(data['answers'][i]);
     }
     else{
-    if (data['quiz_answer'] != null) {
+       
+    if (data['quiz_answer'].length > 0) {
         const problem = document.querySelector("#problem");
         const h = document.querySelector("#quiz_name");
         problem.innerText = data['quiz_answer'][0]['points'] + '/' + data['quiz_answer'][0]['max_points'];
