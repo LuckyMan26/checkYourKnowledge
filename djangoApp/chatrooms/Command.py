@@ -356,3 +356,22 @@ class SaveQuizAnswer(Command):
         user = User.objects.get(username=username)
         QuizAnswer.objects.create(quiz_id=quiz_id, classname=classroom_name, author = user,
                               max_points=max_points, points = user_points)
+
+class GetUsersQuizAnswers(Command):
+    def __init__(self, consumer, data):
+        self.consumer = consumer
+        self.data = data
+
+    async def execute(self):
+        print('GetUsersAnswers')
+        id = self.data['quiz_id']
+        classroom_token = self.data['classroom_name']
+        quizAns = QuizAnswer.objects.all().filter(quiz_id=id, classname=classroom_token)
+        jsonConverter = JsonConverter.JsonConverterContext(JsonConverter.QuizAnswerToJson())
+
+
+        content = {
+            'type': 'quiz_answers',
+            'answers': jsonConverter.convert_multiple(quizAns)
+        }
+        await self.consumer.send_user_answers((content))

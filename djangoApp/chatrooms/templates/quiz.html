@@ -90,6 +90,29 @@
                opacity: 0;
             }
          }
+               .user-answer-div {
+      margin: 10px;
+      background-color: #6BBB69;
+      width: 500px;
+      height: 100px;
+      transition: background-color 0.3s ease;
+    }
+
+    .user-answer-div:hover {
+      background-color: #92CC90;
+      transform: scale(1.1);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+       .big-text {
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+    }
+
+    .small-text {
+      font-size: 18px;
+      color: white;
+    }
       </style>
    </head>
    <body>
@@ -100,12 +123,15 @@
          <button onclick="submitAnswer()" id="submitBtn">Submit answer</button>
 
       </div>
+      <div id="user_ans"></div>
       <div id="dialog" class="dialog-container">
          <h2 id="dialogMessage"> Correct!</h2>
       </div>
       <script>
            window.roomName = '{{ room_name }}';
            window.userName = {{username}};
+           window.isTeacher = '{{is_owner}}';
+           console.log(window.isTeacher);
       </script>
       <script src="{% static 'quiz.js' %}"> </script>
          

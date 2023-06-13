@@ -5,6 +5,7 @@ var data;
 var userAnswers = [];
 var points = 0;
 const username = window.userName;
+const isTeacher = window.isTeacher;
 const chatSocket = new WebSocket(
     'ws://' +
     window.location.host +
@@ -19,9 +20,22 @@ chatSocket.onopen = function(e) {
         'classroom_name': window.roomName,
         'username': username,
     }));
-
+    console.log(isTeacher);
+    if(isTeacher==='True'){
+        console.log(isTeacher);
+        getUsersAnswers();
+    }
 };
+function getUsersAnswers() {
+    console.log('getUsersTasks');
 
+    chatSocket.send(JSON.stringify({
+        'command': 'get_users_quiz_answers',
+        'quiz_id': id,
+        'classroom_name': window.roomName,
+
+    }));
+};
 function showDialog() {
     var answer = document.getElementById('answerInput').value;
     var dialog = document.getElementById('dialog');
@@ -60,6 +74,12 @@ chatSocket.onmessage = function(e) {
     const data_ = JSON.parse(e.data);
     console.log(data_);
     data = data_;
+    if(data['type']==='quiz_answers'){
+        console.log('quiz_answers');
+        for (let i = 0; i < data['answers'].length; i++)
+            createUserAnswer(data['answers'][i]);
+    }
+    else{
     if (data['quiz_answer'] != null) {
         const problem = document.querySelector("#problem");
         const h = document.querySelector("#quiz_name");
@@ -74,9 +94,23 @@ chatSocket.onmessage = function(e) {
     } else {
         changeFlashCard(data['quizz'], 0);
     }
-
 }
-
+}
+function createUserAnswer(data){
+    const div = document.createElement('div');
+    div.className = 'user-answer-div';
+    
+    const answer = document.createElement('div');
+    const user = document.createElement('div');
+    answer.className = 'small-text';
+    user.className = 'big-text';
+    answer.innerText = 'Points'  + ':' + data['points'];
+    user.innerText = 'Author: ' + data['author'];
+ 
+    div.appendChild(user);
+    div.appendChild(answer);
+    document.querySelector('#user_ans').appendChild(div);
+}
 function changeFlashCard(d, index) {
     console.log(d);
     const problem = document.querySelector("#problem");
