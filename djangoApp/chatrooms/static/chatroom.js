@@ -13,6 +13,7 @@ chatSocket.onopen = function(e) {
 
     fetchTasks();
     fetchMessages();
+    fetchQuizzes();
 };
 
 function fetchMessages() {
@@ -23,7 +24,13 @@ function fetchMessages() {
     }));
     console.log('fetchMessages');
 };
-
+function fetchQuizzes() {
+    chatSocket.send(JSON.stringify({
+        'command': 'fetch_quizzes',
+        'room_name': roomName,
+        'username': username,
+    }));
+}
 function fetchTasks() {
     console.log('fetchTasks');
     chatSocket.send(JSON.stringify({
@@ -44,6 +51,7 @@ chatSocket.onmessage = function(e) {
         console.log('messages');
         const chatMessages = document.getElementById('chat-messages');
         chatMessages.innerHTML="";
+        console.log(data);
         for (let i=0; i<data['messages'].length; i++) {
             console.log(data['messages'][i]);
             createMessage(data['messages'][i]);
@@ -60,6 +68,14 @@ chatSocket.onmessage = function(e) {
         }
 
     }
+     else if(data['command']==='quizzes'){
+        console.log('quizzes');
+        console.log(data);
+        const quizz = data['quizzes'];
+        for(let i=0;i<quizz.length;i++){
+        createQuiz(data['quizzes'][i],data['quizzes_answers'][i]);
+    }
+    }
     else if (data['type'] === 'chat_message') {
         createMessage(data);
         messageInput.value = '';
@@ -74,7 +90,39 @@ chatSocket.onmessage = function(e) {
         var field = document.getElementById("codeField");
         field.value = invite_code;
     }
+
 };
+function createQuiz(quizz,quiz_answer){
+   console.log(quizz);
+    const quiz_name = quizz['quiz_name'];
+    const id = quizz['quiz_id'];
+    var div = document.createElement('div');
+    div.style.color = "#fff"
+
+    if(quiz_answer===undefined){
+    div.style.backgroundColor = '#3498db';
+}
+ else if(quiz_answer['points']===quiz_answer['max_points']){
+    div.style.backgroundColor = '#85BE1E';
+}
+else if(quiz_answer['points']!=quiz_answer['max_points']){
+    div.style.backgroundColor = '#B92119';
+}
+    div.style.padding = '10px';
+    var taskName = document.createElement('h3');
+    taskName.style.fontWeight = 'bold';
+    taskName.style.marginBottom = '5px';
+    taskName.textContent = quiz_name;
+     div.style.cursor = 'pointer';
+     div.style.margin = '10px 0';
+    div.appendChild(taskName);
+      div.addEventListener('click', function() {
+
+        window.location.pathname = '/chat/' + roomName + '/' + 'quiz' +'/' + id + '/';
+    });
+    var parentElement = document.getElementById('content');
+    parentElement.appendChild(div);
+}
 function createTask(tasks,answers) {
     const userAnswer = tasks['user_ans'];
     const TaskName = tasks['task_name'];
@@ -108,13 +156,11 @@ function createTask(tasks,answers) {
     taskName.textContent = TaskName;
     div.appendChild(taskName);
 
-    // Create the points element
     var points = document.createElement('p');
     points.style.margin = '0';
     points.textContent = 'Points: ' + String(pointsInt);
     div.appendChild(points);
 
-    // Add the click event listener
     div.addEventListener('click', function() {
         window.location.pathname = '/chat/' + roomName + '/' + id + '/';
     });
@@ -126,8 +172,10 @@ function createTask(tasks,answers) {
 }
 
 function createMessage(data) {
+   
     const message = data['content'];
     const from = data['author'];
+    
     const messageElement = document.createElement('div');
     messageElement.classList.add('message');
     const chatMessages = document.getElementById('chat-messages');
@@ -189,6 +237,10 @@ document.querySelector('#send-button').onclick = function(e) {
     messageInputDom.value = '';
 };
 
+
+
+
+
 if(window.isOwner == 'True') {
     document.querySelector('#createTask').onclick = function (e) {
         const messageInputDom = document.querySelector('#chat-message-input');
@@ -196,6 +248,11 @@ if(window.isOwner == 'True') {
         window.location.pathname = '/chat/' + roomName + '/' + 'createtask/';
     };
 
+  document.querySelector('#createQuiz').onclick = function(e) {
+    const messageInputDom = document.querySelector('#chat-message-input');
+    
+    window.location.pathname = '/chat/' + roomName + '/' + 'createquiz/';
+};
 
     document.querySelector('#generate-link').onclick = function (e) {
         chatSocket.send(JSON.stringify({

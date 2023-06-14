@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from . import JsonConverter
-from .models import Message, Task_model, Classroom, Answer
+from .models import *
 from .Task import Task
 import json
 from datetime import datetime
@@ -23,7 +23,7 @@ class FetchCommand(Command):
         class_room = self.data['room_name']
         messages = Message.last_10_messages(class_room)
         jsonConverter = JsonConverter.JsonConverterContext(JsonConverter.MessageToJsonConverter())
-        print(messages)
+
         content = {
             'command': 'messages',
             'messages': jsonConverter.convert_multiple(messages)
@@ -271,3 +271,107 @@ class ChangeScoreCommand(Command):
         username = self.data['username']
         new_points = self.data['points']
         Answer.objects.all().filter(task_id=id, classroom_token=classroom_token, author_of_answer = username).update(points=new_points)
+
+
+class CreateQuizTaskCommand(Command):
+    def __init__(self, consumer, data):
+        self.consumer = consumer
+        self.data = data
+
+    async def execute(self):
+        print(self.data)
+        tasks = self.data['tasks']
+        print(tasks)
+        classname = self.data['classroom_name']
+        quiz_name = self.data['quiz_name']
+        quizzes = Quiz.last_quizzes(classname)
+        print(classname)
+        if len(quizzes)==0:
+            quiz_id = 1
+        else:
+            max: int = quizzes[0].quiz_id
+            for i in quizzes:
+                if i.quiz_id > max:
+                    max = i.quiz_id
+            quiz_id = 1 + max
+        quiz = Quiz.objects.create(quiz_id=quiz_id, num_of_questions = len(tasks), classname = classname, quiz_name = quiz_name)
+        for task in tasks:
+            quiz_task = QuizTask.objects.create(quiz_id = quiz_id, correct_answer = task['correct_answer'], problem=task['task_content'], classname = classname)
+
+
+class FetchQuizzes(Command):
+    def __init__(self, consumer, data):
+        self.consumer = consumer
+        self.data = data
+
+    async def execute(self):
+        classname = self.data['room_name']
+        author = self.data['username']
+
+        quizzes = Quiz.objects.filter(classname = classname)
+
+        quizAnswer = QuizAnswer.last_quiz_answers(classname,author)
+
+        jsonConverter = JsonConverter.JsonConverterContext(JsonConverter.QuizToJson())
+        quizAnswerConverter = JsonConverter.JsonConverterContext(JsonConverter.QuizAnswerToJson())
+        content = {
+            'command': 'quizzes',
+            'quizzes': jsonConverter.convert_multiple(quizzes),
+            'quizzes_answers':  quizAnswerConverter.convert_multiple(quizAnswer),
+        }
+
+        await self.consumer.send(text_data=json.dumps(content))
+class GetQuiz(Command):
+    def __init__(self, consumer, data):
+        self.consumer = consumer
+        self.data = data
+
+    async def execute(self):
+        quiz_id = self.data['quiz_id']
+        classroom = self.data['classroom_name']
+        quizTask = QuizTask.objects.filter(classname = classroom, quiz_id = quiz_id)
+        author = self.data['username']
+
+
+        userQuizResult = QuizAnswer.objects.filter(classname = classroom, quiz_id = quiz_id, author = author)
+        jsonConverter = JsonConverter.JsonConverterContext(JsonConverter.QuizTaskToJson())
+        quizAnswerjsonConverter = JsonConverter.JsonConverterContext(JsonConverter.QuizAnswerToJson())
+        jsonQuizTask = jsonConverter.convert_multiple(quizTask)
+        jsonQuizAnswer =quizAnswerjsonConverter.convert_multiple(userQuizResult)
+        await self.consumer.send(text_data=json.dumps({'quizz' : jsonQuizTask,
+                                                       'quiz_answer': jsonQuizAnswer}))
+
+class SaveQuizAnswer(Command):
+    def __init__(self, consumer, data):
+        self.consumer = consumer
+        self.data = data
+
+    async def execute(self):
+        print(SaveQuizAnswer)
+        quiz_id = self.data['quiz_id']
+        classroom_name = self.data['classroom_name']
+        user_points = self.data['user_points']
+        max_points = self.data['max_points']
+        username = self.data['username']
+        user = User.objects.get(username=username)
+        QuizAnswer.objects.create(quiz_id=quiz_id, classname=classroom_name, author = user,
+                              max_points=max_points, points = user_points)
+
+class GetUsersQuizAnswers(Command):
+    def __init__(self, consumer, data):
+        self.consumer = consumer
+        self.data = data
+
+    async def execute(self):
+        print('GetUsersAnswers')
+        id = self.data['quiz_id']
+        classroom_token = self.data['classroom_name']
+        quizAns = QuizAnswer.objects.all().filter(quiz_id=id, classname=classroom_token)
+        jsonConverter = JsonConverter.JsonConverterContext(JsonConverter.QuizAnswerToJson())
+
+
+        content = {
+            'type': 'quiz_answers',
+            'answers': jsonConverter.convert_multiple(quizAns)
+        }
+        await self.consumer.send_user_answers((content))

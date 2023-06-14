@@ -24,4 +24,14 @@ class CommandFactory:
             return GetUsersAnswers(consumer, data)
         elif command_name == 'change_score':
             return ChangeScoreCommand(consumer,data)
+        elif command_name == 'create_quiztask':
+            return CreateQuizTaskCommand(consumer,data)
+        elif command_name == 'fetch_quizzes':
+            return FetchQuizzes(consumer,data)
+        elif command_name == 'get_quiz':
+            return GetQuiz(consumer,data)
+        elif command_name == 'save_answer_quiz':
+            return SaveQuizAnswer(consumer,data)
+        elif command_name == 'get_users_quiz_answers':
+            return GetUsersQuizAnswers(consumer,data)
         return None
