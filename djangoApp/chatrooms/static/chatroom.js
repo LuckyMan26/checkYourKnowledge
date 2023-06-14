@@ -199,8 +199,8 @@ function createMessage(data) {
     } else {
 
         usernameElement.textContent = from;
- 
-    
+
+
     }
     messageContentElement.appendChild(usernameElement);
     const messageTextElement = document.createElement('div');
@@ -237,22 +237,29 @@ document.querySelector('#send-button').onclick = function(e) {
     messageInputDom.value = '';
 };
 
-document.querySelector('#createTask').onclick = function(e) {
-    const messageInputDom = document.querySelector('#chat-message-input');
-    
-    window.location.pathname = '/chat/' + roomName + '/' + 'createtask/';
-};
-document.querySelector('#createQuiz').onclick = function(e) {
+
+
+
+
+if(window.isOwner == 'True') {
+    document.querySelector('#createTask').onclick = function (e) {
+        const messageInputDom = document.querySelector('#chat-message-input');
+        chatSocket.close(); // BTW HERE
+        window.location.pathname = '/chat/' + roomName + '/' + 'createtask/';
+    };
+
+  document.querySelector('#createQuiz').onclick = function(e) {
     const messageInputDom = document.querySelector('#chat-message-input');
     
     window.location.pathname = '/chat/' + roomName + '/' + 'createquiz/';
 };
 
-document.querySelector('#generate-link').onclick = function(e) {
-    chatSocket.send(JSON.stringify({
-        'command' : 'generate_invite',
-        'token': roomName
-    }));
-};
+    document.querySelector('#generate-link').onclick = function (e) {
+        chatSocket.send(JSON.stringify({
+            'command': 'generate_invite',
+            'token': roomName
+        }));
+    };
+}
 
 const header = document.getElementById('header');

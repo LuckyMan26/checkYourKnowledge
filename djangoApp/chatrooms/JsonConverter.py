@@ -46,7 +46,8 @@ class ClassroomToJson(ObjectToJsonConverter):
 
         return {
             'name': classroom.name,
-            'token': classroom.token
+            'token': classroom.token,
+            'owner': classroom.owner.username,
         }
 
     def convert_multiple(self, classrooms):
@@ -54,6 +55,23 @@ class ClassroomToJson(ObjectToJsonConverter):
         for classroom in classrooms:
             result.append(self.convert_single(classroom))
         return result
+
+class UserToJson(ObjectToJsonConverter):
+    def convert_single(self, user):
+        return {
+            'name': user.username,
+            'avatarLink': user.avatar_link,
+            'firstName': user.first_name,
+            'lastName': user.last_name,
+            'user_id': user.id,
+        }
+
+    def convert_multiple(self, users):
+        result = []
+        for user in users:
+            result.append(self.convert_single(user))
+        return result
+
 class AnswerToJson(ObjectToJsonConverter):
     def convert_single(self, answer):
 
@@ -70,6 +88,7 @@ class AnswerToJson(ObjectToJsonConverter):
         for answer in anwers:
             result.append(self.convert_single(answer))
         return result
+
 
 class QuizToJson(ObjectToJsonConverter):
     def convert_single(self, quiz):
@@ -122,6 +141,29 @@ class QuizAnswerToJson(ObjectToJsonConverter):
         for quizTask in quizTasks:
             result.append(self.convert_single(quizTask))
         return result
+
+class ReportAnswersToJson(ObjectToJsonConverter):
+    def convert_single(self, result):
+
+        return {
+            'task_id': result['task_id'],
+            'author': result['author'],
+            'content_problem': result['content_problem'],
+            'content_answer': result['content_answer'],
+            'content_id': result['content_id'],
+            'classroom_name': result['classroom_name'],
+            'answer_points': result['answer_points'],
+            'max_points': result['max_points'],
+            'task_name': result['task_name']
+        }
+
+    def convert_multiple(self, results):
+        final = []
+        for result in results:
+            final.append(self.convert_single(result))
+        return final
+
+
 class JsonConverterContext:
     def __init__(self, converter):
         self.converter = converter
