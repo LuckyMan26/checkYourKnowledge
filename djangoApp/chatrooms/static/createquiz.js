@@ -70,7 +70,7 @@ function showSuccessMessage() {
     });
 var quizTaskSubmitButton = document.querySelector("#task-submit");
 quizTaskSubmitButton.addEventListener("click", function(){
-const points = document.querySelector('#task-points').value;
+const points = 0;
 const correct_answer = document.querySelector('#answer-input').value;
 const task_content = document.querySelector('#task-content').value;
 const task =  { "points": points, "correct_answer": correct_answer,"task_content":task_content };
