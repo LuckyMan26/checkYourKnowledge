@@ -78,6 +78,10 @@ chatSocket.onmessage = function(e) {
     data = data_;
     if(data['type']==='quiz_answers'){
         console.log('quiz_answers');
+        const h = document.querySelector("#quiz_name");
+        h.innerText = "Results of class";
+        const problem = document.querySelector("#problem");
+        problem.innerText = "";
         for (let i = 0; i < data['answers'].length; i++)
             createUserAnswer(data['answers'][i]);
     }

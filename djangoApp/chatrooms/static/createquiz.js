@@ -77,8 +77,12 @@ const task =  { "points": points, "correct_answer": correct_answer,"task_content
 
 tasks.push(task);
 var div = document.createElement('div');
-
+div.style.color = "#fff"
+    div.style.backgroundColor = '#3498db';
+    div.style.margin = '10px';
+    div.style.padding = '10px';
 div.innerText = tasks[tasks.length-1]['task_content'];
+
 document.querySelector("#content").appendChild(div);
 closeButton.click();
 })
