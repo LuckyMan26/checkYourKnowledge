@@ -308,7 +308,9 @@
          <div class="logo">
             <img src="https://upload.wikimedia.org/wikipedia/commons/5/59/Google_Classroom_Logo.png" onclick="homeClick()">
          </div>
+         {% if is_owner %}
          <button id="generate-link" class="btn">Generate Link</button>
+         {% endif %}
       </header>
       <div class="separator"></div>
       <div class="chat-box">
