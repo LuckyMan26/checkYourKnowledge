@@ -73,6 +73,7 @@ chatSocket.onmessage = function(e) {
         console.log(data);
         const quizz = data['quizzes'];
         for(let i=0;i<quizz.length;i++){
+            console.log('quizzes_answers' + data['quizzes_answers'][i])
         createQuiz(data['quizzes'][i],data['quizzes_answers'][i]);
     }
     }
@@ -98,7 +99,7 @@ function createQuiz(quizz,quiz_answer){
     const id = quizz['quiz_id'];
     var div = document.createElement('div');
     div.style.color = "#fff"
-
+    console.log('Quiz_answer' + quiz_answer);
     if(quiz_answer===undefined){
     div.style.backgroundColor = '#3498db';
 }
