@@ -78,7 +78,24 @@
         .answers-table th {
             font-weight: bold;
         }
+           .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        background-color: #4CAF50;
+        color: #fff;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
 
+    .btn:hover {
+        background-color: #45a049;
+    }
     </style>
 {% endblock %}
 
@@ -132,7 +149,7 @@
         </div>
     </div>
 
-    <button onclick="downloadReport()">Download PDF</button>
+    <button onclick="downloadReport()" class="btn">Download PDF</button>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/vfs_fonts.js"></script>

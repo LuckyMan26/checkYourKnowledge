@@ -45,7 +45,7 @@ function showSuccessMessage() {
 
     function clearInputFields() {
         document.getElementById("task-content").value = "";
-        document.getElementById("task-points").value = "";
+        
         document.getElementById("answer-input").value = "";
     }
     var submitButton = document.getElementById("createtask");

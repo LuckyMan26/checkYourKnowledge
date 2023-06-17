@@ -310,8 +310,8 @@ class FetchQuizzes(Command):
 
         quizzes = Quiz.objects.filter(classname = classname)
 
-        quizAnswer = QuizAnswer.last_quiz_answers(classname,author)
-
+        quizAnswer = QuizAnswer.last_quiz_answers(classname, author)
+        print('quizAnswer' + str(quizAnswer))
         jsonConverter = JsonConverter.JsonConverterContext(JsonConverter.QuizToJson())
         quizAnswerConverter = JsonConverter.JsonConverterContext(JsonConverter.QuizAnswerToJson())
         content = {
@@ -320,7 +320,7 @@ class FetchQuizzes(Command):
             'quizzes_answers':  quizAnswerConverter.convert_multiple(quizAnswer),
         }
 
-        await self.consumer.send(text_data=json.dumps(content))
+        await self.consumer.send_chat_message_fetch(content)
 class GetQuiz(Command):
     def __init__(self, consumer, data):
         self.consumer = consumer

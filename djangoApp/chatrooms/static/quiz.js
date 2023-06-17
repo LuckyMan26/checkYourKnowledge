@@ -6,6 +6,7 @@ var userAnswers = [];
 var points = 0;
 const username = window.userName;
 const isTeacher = window.isTeacher;
+var hasAlreadySent = false;
 const chatSocket = new WebSocket(
     'ws://' +
     window.location.host +
@@ -143,6 +144,7 @@ function submitAnswer() {
         var submitBtn = document.getElementById('submitBtn');
         submitBtn.style.display = 'none';
         answerInput.style.display = 'none';
+        if(hasAlreadySent === true){
         chatSocket.send(JSON.stringify({
             'command': 'save_answer_quiz',
             'quiz_id': id,
@@ -151,7 +153,8 @@ function submitAnswer() {
             'max_points': data['quizz'].length,
             'username': username,
         }));
-
+    }
+        hasAlreadySent = true;
     } else {
         const answerInput = document.querySelector("#answerInput").value;
         userAnswers.push(answerInput);
@@ -167,6 +170,7 @@ function submitAnswer() {
 function backButtonEvent(){
     console.log("Navigated back!");
      if(data['quiz_answer'].length == 0){
+          if(hasAlreadySent === true){
     chatSocket.send(JSON.stringify({
             'command': 'save_answer_quiz',
             'quiz_id': id,
@@ -175,5 +179,7 @@ function backButtonEvent(){
             'max_points': data['quizz'].length,
             'username': username,
         }));
+}
+    hasAlreadySent = true;
 }
 }
