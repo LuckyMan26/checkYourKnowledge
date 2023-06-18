@@ -21,3 +21,4 @@ Get started:
 7. Model-View-Template (MVT) Pattern (interpretation of MVC pattern where Controller is the “view”, and the View is the “template”)
 8. Front Controller Pattern
 9. Template-View Pattern
+10. Singleton Pattern
