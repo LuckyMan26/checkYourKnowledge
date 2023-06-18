@@ -10,3 +10,15 @@ Get started:
 7. Move to the Django files `cd djangoApp`
 8. OPTIONALLY, if you want to delete all the previous information about classes, users, etc. - execute `python manage.py flush`. Then set up local migrations: `python manage.py makemigrations chatrooms`, `python manage.py makemigrations account` and then `python manage.py migrate`
 9. Open the site `python manage.py runserver`. If it gives an error try to change the port, for example - `python manage.py runserver 7000` (by default port is 8000).
+
+# Used patterns
+1. Command Pattern
+2. JSON Serialization Pattern
+3. Decorator Pattern
+4. Observer Pattern
+5. Stategy Pattern
+6. Factory Pattern
+7. Template Method Pattern
+8. Singleton Pattern (get_user_model)
+9. Model-View-Template (MVT) Pattern (interpretation of MVC pattern where Controller is the “view”, and the View is the “template”)
+10. Front Controller Pattern
