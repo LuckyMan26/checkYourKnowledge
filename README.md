@@ -13,12 +13,11 @@ Get started:
 
 # Used patterns
 1. Command Pattern
-2. JSON Serialization Pattern
-3. Decorator Pattern
-4. Observer Pattern
-5. Stategy Pattern
-6. Factory Pattern
-7. Template Method Pattern
-8. Singleton Pattern (get_user_model)
-9. Model-View-Template (MVT) Pattern (interpretation of MVC pattern where Controller is the “view”, and the View is the “template”)
-10. Front Controller Pattern
+2. Decorator Pattern
+3. Observer Pattern
+4. Stategy Pattern
+5. Factory Pattern
+6. JSON Serialization Pattern
+7. Model-View-Template (MVT) Pattern (interpretation of MVC pattern where Controller is the “view”, and the View is the “template”)
+8. Front Controller Pattern
+9. Template-View Pattern
