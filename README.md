@@ -11,14 +11,3 @@ Get started:
 8. OPTIONALLY, if you want to delete all the previous information about classes, users, etc. - execute `python manage.py flush`. Then set up local migrations: `python manage.py makemigrations chatrooms`, `python manage.py makemigrations account` and then `python manage.py migrate`
 9. Open the site `python manage.py runserver`. If it gives an error try to change the port, for example - `python manage.py runserver 7000` (by default port is 8000).
 
-# Used patterns
-1. Command Pattern
-2. Decorator Pattern
-3. Observer Pattern
-4. Stategy Pattern
-5. Factory Pattern
-6. JSON Serialization Pattern
-7. Model-View-Template (MVT) Pattern (interpretation of MVC pattern where Controller is the “view”, and the View is the “template”)
-8. Front Controller Pattern
-9. Template-View Pattern
-10. Singleton Pattern
