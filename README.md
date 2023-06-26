@@ -11,8 +11,7 @@ Get started:
 8. OPTIONALLY, if you want to delete all the previous information about classes, users, etc. - execute `python manage.py flush`. Then set up local migrations: `python manage.py makemigrations chatrooms`, `python manage.py makemigrations account` and then `python manage.py migrate`
 9. Open the site `python manage.py runserver`. If it gives an error try to change the port, for example - `python manage.py runserver 7000` (by default port is 8000).
 
-
-#Screenshots 
+# Screenshots
 Log-in window:
 ![django_proj](https://github.com/LuckyMan26/checkYourKnowledge/assets/90770582/f1d2367b-6382-4981-a590-e9b6a66a1292)
 
